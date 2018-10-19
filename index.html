@@ -1,0 +1,160 @@
+	<html lang="ru">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+	  <title>Form</title>
+	  
+
+	  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	 <!-- <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>-->
+	  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	  <script type="text/javascript">
+	  	 $(document).on('submit', function(e){
+	   e.preventDefault();
+	   let inpObj = document.getElementsByTagName("input");
+	   let con = document.getElementById('con');
+	   con.innerHTML="";	   
+
+	   
+	    for( inp in inpObj){
+	     if (inpObj[inp].hasAttribute("data-validation")) {
+	      let val_data = inpObj[inp].dataset.validation;
+	      let val_inp = inpObj[inp].value;
+
+	      console.log(typeof(val_inp));
+	      console.log("id + "+inpObj[inp].id);
+
+	      if(val_inp === ''){
+	       $(document).find("#"+inpObj[inp].id+'-message').remove();
+	       $("#"+inpObj[inp].id).addClass("invalid");
+
+	         $("#"+inpObj[inp].id).after("<div id = '"+inpObj[inp].id+"-message' class='message invalid-message'>Empty field:(</div>");
+
+	      }else{
+	       switch(val_data){
+	        case "text":
+	        var value1 = /'/;
+	         var value2 = /"/; 
+	        if(value1.test(val_inp) || value2.test(val_inp)){
+	         $(document).find("#"+inpObj[inp].id+'-message').remove();
+	          $("#"+inpObj[inp].id).removeClass("valid");
+	          $("#"+inpObj[inp].id).addClass("invalid");
+	          $("#"+inpObj[inp].id).after("<div  id = '"+inpObj[inp].id+"-message' class='message invalid-message'>Invalid characters: ' or \"</div>");
+	        }
+	        else{
+	         $(document).find("#"+inpObj[inp].id+'-message').remove();
+	         $("#"+inpObj[inp].id).removeClass("invalid");
+	         $("#"+inpObj[inp].id).addClass("valid");
+	         $("#"+inpObj[inp].id).after("<div id = '"+inpObj[inp].id+"-message' class='message valid-message'>Ok</div>");
+	         con.innerHTML+="z";
+	        }
+	        break;
+	        case "date":
+	        if(inpObj[inp].value != ''){
+	         $(document).find("#"+inpObj[inp].id+'-message').remove();
+	         $("#"+inpObj[inp].id).removeClass("invalid");
+	         $("#"+inpObj[inp].id).addClass("valid");
+	         $("#"+inpObj[inp].id).after("<div id = '"+inpObj[inp].id+"-message' class='message valid-message'>Ok</div>");
+	         con.innerHTML+="z";
+	        }
+	        break;
+	        case "email":
+          var emailReg = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/; 
+         if(emailReg.test(val_inp) != true){
+          $(document).find("#"+inpObj[inp].id+'-message').remove();
+           $("#"+inpObj[inp].id).removeClass("valid");
+           $("#"+inpObj[inp].id).addClass("invalid");
+           $("#"+inpObj[inp].id).after("<div  id = '"+inpObj[inp].id+"-message' class='message invalid-message'>Email address is not valid.</div>");
+
+         }
+         else{
+          $(document).find("#"+inpObj[inp].id+'-message').remove();
+          $("#"+inpObj[inp].id).removeClass("invalid");
+          $("#"+inpObj[inp].id).addClass("valid");
+          $("#"+inpObj[inp].id).after("<div id = '"+inpObj[inp].id+"-message' class='message valid-message'>Ok</div>");
+          con.innerHTML+="z";
+
+         }
+         break;
+         case "password":
+         if(inpObj[inp].value.length < 8){
+          $(document).find("#"+inpObj[inp].id+'-message').remove();
+           $("#"+inpObj[inp].id).removeClass("valid");
+           $("#"+inpObj[inp].id).addClass("invalid");
+           $("#"+inpObj[inp].id).after("<div  id = '"+inpObj[inp].id+"-message' class='message invalid-message'>Password is not valid.</div>");
+
+         }
+         else{
+          $(document).find("#"+inpObj[inp].id+'-message').remove();
+          $("#"+inpObj[inp].id).removeClass("invalid");
+          $("#"+inpObj[inp].id).addClass("valid");
+          $("#"+inpObj[inp].id).after("<div id = '"+inpObj[inp].id+"-message' class='message valid-message'>Ok</div>");
+          con.innerHTML+="z";
+
+         }
+         break;
+	       }
+	       if (con.innerHTML.length>=6){
+	       	alert("Validation passed");
+	       }
+	      }
+	     }
+	   }; 
+	   
+
+	 });
+	 $( function() {
+	     $( "#datepicker" ).datepicker();
+	   });
+	  </script>
+		<title>Form</title>
+		<link rel="stylesheet" href="css/style.css" type="text/css">
+		<link rel="stylesheet" href="css/font-awesome.css" type="text/css">
+	</head>
+	<body>
+	<div class="container">
+		<img src="img/men.png">
+		<form method="post" action="#" novalidate>
+			<div class="dws-input">
+				<input id="firstName" type="text" name="firstName" placeholder="First name" data-validation="text">
+			</div>
+			<div class="dws-input">
+				<input id=lastName type="text" name="lastName" placeholder="Last name" data-validation="text">
+			</div>
+			<div class="dws-input">
+				<input id="datepicker" type="text" name="birthday" placeholder="Birthday" data-validation="date">
+			</div>
+		<div class="MF">
+			<input type="radio" id="male" name="contact" value="male" checked>
+	    <label for="male">Male</label>
+
+	    <input type="radio" id="female" name="contact" value="female">
+	    <label for="female">Female</label>
+	    </div>
+			<div class="dws-input">
+				
+				<select id="country" size = "1" name="country[]">
+					<option disabled>Country</option>
+	    <option value="Usa">USA</option>
+	    <option value="Ukraine">Ukraine</option>
+	    <option value="Italy">Italy</option>
+				</select>
+			</div>
+			<div class="dws-input">
+				<input id="email" type="text" name="email" placeholder="Email" data-validation ="email">
+			</div>
+			<div class="dws-input">
+				<input id="password" type="password" name="password" placeholder="Password" data-validation = "password">
+			</div>
+			<div class="dws-input">
+				<input id="adress" type="text" name="address" placeholder="Address" data-validation = "text">
+			</div>
+			<div>
+				<textarea  class="textarea" type="text" name="notes" placeholder="Notes"></textarea>
+			</div>
+			<input class="dws-submit" type="submit" name="submit" value="Submit"><br />
+		</form>
+		<div id="con"></div>
+
+	</div>
+	</body>
